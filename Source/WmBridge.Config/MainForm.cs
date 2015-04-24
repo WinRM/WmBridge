@@ -489,6 +489,11 @@ namespace WmBridge.Config
 
         }
 
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            AutoUpdater.CheckForUpdates();
+        }
+
     }
 
     internal static class FormExtensions

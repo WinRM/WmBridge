@@ -227,7 +227,7 @@ namespace WmBridge.Web.Model
             foreach (var sesVars in sessionStateVars)
                 state.TryAdd(sesVars.Key, sesVars.Value);
 
-            string newSession = Guid.NewGuid().ToString(); ;
+            string newSession = Guid.NewGuid().ToString();
             sessions.Add(newSession, connectionHash, options.ShortTimeConnection ? shortTimeSessionPolicy : sessionPolicy); // session refers to shared connection
 
             return newSession;

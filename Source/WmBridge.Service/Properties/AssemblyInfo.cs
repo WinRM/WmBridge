@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WinRM Bridge Service")]
 [assembly: AssemblyCompany("Jan Lucansky")]
 [assembly: AssemblyProduct("WmBridge")]
-[assembly: AssemblyCopyright("Copyright (c) 2014 Jan Lucansky. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright (c) 2015 Jan Lucansky. All rights reserved.")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

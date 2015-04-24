@@ -450,6 +450,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WinRM Bridge Service Configuration";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.groupListener.ResumeLayout(false);
             this.groupListener.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numListenerPort)).EndInit();

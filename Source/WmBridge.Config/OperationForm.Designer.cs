@@ -142,6 +142,7 @@
             this.Name = "OperationForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.OperationForm_Load);
+            this.Shown += new System.EventHandler(this.OperationForm_Shown);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.panel.ResumeLayout(false);

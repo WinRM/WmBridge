@@ -85,5 +85,10 @@ namespace WmBridge.Config
                 }));
         }
 
+        private void OperationForm_Shown(object sender, EventArgs e)
+        {
+            AutoUpdater.CheckForUpdates();
+        }
+
     }
 }

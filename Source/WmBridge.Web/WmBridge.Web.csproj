@@ -153,6 +153,7 @@
     <Compile Include="Controllers\PSApiController.cs" />
     <Compile Include="Controllers\PSSessionController.cs" />
     <Compile Include="Controllers\SchedulerController.cs" />
+    <Compile Include="Controllers\ScriptController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />

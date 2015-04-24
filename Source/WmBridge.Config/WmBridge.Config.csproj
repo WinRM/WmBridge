@@ -72,6 +72,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="AutoUpdater.cs" />
     <Compile Include="CommandLink.cs">
       <SubType>Component</SubType>
     </Compile>
