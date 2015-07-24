@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Management;
 using System.Management.Automation;
 using System.Web.Http;
@@ -142,5 +143,20 @@ namespace WmBridge.Web.Controllers
             return "@(" + string.Join(",", values) + ")";
         }
 
+        /// <param name="timeout">Timeout in seconds</param>
+        protected object PSJobProgress(string jobInstanceId, int timeout)
+        {
+            // receive-job exception if any and remove job when finished
+            var result = InvokePowerShell("$job = Get-Job -InstanceId $args[0] -ea SilentlyContinue; if ($job.PSEndTime) { try {Receive-Job $job | Out-Null} finally {Remove-Job $job} }; if ($job) {Wait-Job $job -Timeout " + timeout + " | Out-Null}; $job",
+                PSSelect(
+                "PercentComplete".Expression("$_.Progress.PercentComplete"),
+                "State".As<string>()
+                ), jobInstanceId).SingleOrDefault();
+
+            if (result == null)
+                throw new HttpResponseException(Request.CreateErrorResponse(System.Net.HttpStatusCode.BadRequest, "Action canceled."));
+            else
+                return result;
+        }
     }
 }

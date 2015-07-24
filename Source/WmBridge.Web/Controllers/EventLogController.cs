@@ -12,6 +12,7 @@ using WmBridge.Web.Filters;
 
 namespace WmBridge.Web.Controllers
 {
+    [PSVersion("3.0")]
     [RoutePrefix("eventlog")]
     public class EventLogController : PSApiController
     {

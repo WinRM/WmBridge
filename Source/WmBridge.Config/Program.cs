@@ -4,13 +4,9 @@
 //  THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTIES
 //
 
-using log4net;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.ServiceProcess;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WmBridge.Config

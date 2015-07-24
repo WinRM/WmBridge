@@ -5,7 +5,6 @@
 //
 
 using System;
-using System.Management.Automation.Runspaces;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -28,7 +27,8 @@ namespace WmBridge.Web.Filters
             object runspace = actionContext.Request.GetPSConnection();
             if (runspace != null)
             {
-                if (((Runspace)runspace).Version < requiredVersion)
+                var psVersion = actionContext.Request.GetPSVersion();
+                if (psVersion != null && psVersion < requiredVersion)
                     throw new HttpResponseException(actionContext.Request.CreateErrorResponse(HttpStatusCode.NotImplemented, "PowerShell version " + requiredVersion + " is required."));
             }
         }

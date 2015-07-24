@@ -36,6 +36,8 @@ namespace WmBridge.Web.Model
         public const string PSConnectionKey = "PSConnection";
         public const string PSConnectionStateKey = "PSConnectionState";
         public const string PSHostClientKey = "PSHostClient";
+        public const string PSVersionKey = "PSVersion";
+        public const string ClientVersionKey = "ClientVersion";
         public const string RefCounterKey = "RefCounter";
 
         private bool disposed = false;
@@ -130,11 +132,27 @@ namespace WmBridge.Web.Model
                 string script = options.InteractiveTerminal ? "" : "$ErrorActionPreference = 'stop';";
 
                 if (!string.IsNullOrEmpty(options.ExecutionPolicy))
-                    script += "Set-ExecutionPolicy $args[0] -Scope Process -Force";
+                    script += "Set-ExecutionPolicy $args[0] -Scope Process -Force;";
+
+                script += "$PSVersionTable.PSVersion";
 
                 ps.AddScript(script);
                 ps.AddArgument(options.ExecutionPolicy);
-                ps.Invoke();
+                var psResult = ps.Invoke();
+
+                if (psResult.Count >= 1)
+                {
+                    sessionStateVars.Add(PSSessionManager.PSVersionKey, psResult[0].BaseObject as Version);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(options.ClientVersion))
+            {
+                Version ver;
+                if (Version.TryParse(options.ClientVersion, out ver))
+                {
+                    sessionStateVars.Add(PSSessionManager.ClientVersionKey, ver);
+                }
             }
 
             return runspace;
@@ -199,7 +217,7 @@ namespace WmBridge.Web.Model
         /// <summary>
         /// Creates new remote PS session if neccesary, and returns unique session identifier
         /// </summary>
-        public string Connect(PSConnection options)
+        public string Connect(PSConnection options, out object state)
         {
             var connectionHash = GetConnectionHash(options);
 
@@ -219,17 +237,18 @@ namespace WmBridge.Web.Model
                 throw;
             }
 
-            var state = ((ConcurrentDictionary<string, object>)sessionState
+            var stateDict = ((ConcurrentDictionary<string, object>)sessionState
                 .GetOrAdd(connectionHash, _ => new ConcurrentDictionary<string, object>()));
                 
-            state.AddOrUpdate(RefCounterKey, 1, (key, current) => (int)current + 1);
+            stateDict.AddOrUpdate(RefCounterKey, 1, (key, current) => (int)current + 1);
 
             foreach (var sesVars in sessionStateVars)
-                state.TryAdd(sesVars.Key, sesVars.Value);
+                stateDict.TryAdd(sesVars.Key, sesVars.Value);
 
             string newSession = Guid.NewGuid().ToString();
             sessions.Add(newSession, connectionHash, options.ShortTimeConnection ? shortTimeSessionPolicy : sessionPolicy); // session refers to shared connection
 
+            state = stateDict;
             return newSession;
         }
 

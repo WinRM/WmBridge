@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿//
+//  Copyright (c) 2014 Jan Lucansky. All rights reserved.
+//
+//  THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTIES
+//
+
+using System;
 using System.Management.Automation;
 using System.Runtime.Caching;
-using System.Web;
 using System.Web.Http;
 
 namespace WmBridge.Web.Controllers

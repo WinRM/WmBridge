@@ -34,6 +34,29 @@ namespace WmBridge.Web
             return (IDictionary<string, object>)result;
         }
 
+        public static Version GetPSVersion(this HttpRequestMessage request)
+        {
+            object objPsVersion;
+            request.GetPSState().TryGetValue(PSSessionManager.PSVersionKey, out objPsVersion);
+            return objPsVersion as Version;
+        }
+
+        public static string GetPSVersionString(this HttpRequestMessage request)
+        {
+            var version = request.GetPSVersion();
+            if (version == null)
+                return string.Empty;
+            else
+                return version.ToString();
+        }
+
+        public static Version GetClientVersion(this HttpRequestMessage request)
+        {
+            object objVersion;
+            request.GetPSState().TryGetValue(PSSessionManager.ClientVersionKey, out objVersion);
+            return objVersion as Version;
+        }
+
         public static PowerShell CreatePowerShell(this HttpRequestMessage request)
         {
             var result = PowerShell.Create();

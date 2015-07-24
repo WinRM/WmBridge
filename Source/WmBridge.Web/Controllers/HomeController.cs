@@ -26,14 +26,14 @@ namespace WmBridge.Web.Controllers
                     "<body style=\"margin:0px\"><div style=\"width:100%;height:100%;text-align:center\">" +
                     "<span style=\"display:inline-block;vertical-align:middle;height:100%\"></span>" +
                     "<a title=\"www.winrmapp.com\" href=\"http://www.winrmapp.com\">" +
-                    "<img src=\"images/logo\" style=\"vertical-align:middle;border:none\"/></a>" +
+                    "<img src=\"" + Request.GetUrlHelper().Route("Logo", null) + "\" style=\"vertical-align:middle;border:none\"/></a>" +
                     "</div></body></html>")
             };
             response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/html");
             return response;
         }
 
-        [Route("images/logo"), HttpGet]
+        [Route("images/logo", Name = "Logo"), HttpGet]
         public HttpResponseMessage Logo()
         {
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new ByteArrayContent(Resources.Logo) };
