@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
+using System.Management.Automation;
 using System.Management.Automation.Remoting;
 using System.Net.Http;
 using System.Reflection;
@@ -36,7 +37,7 @@ namespace WmBridge.Web.Controllers
                     PSVersion = Request.GetPSVersionString()
                 });
             }
-            catch (PSRemotingTransportException ex)
+            catch (Exception ex) when (ex is PSRemotingTransportException || ex is RemoteException)
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(System.Net.HttpStatusCode.BadRequest, ex.Message));
             }

@@ -88,14 +88,14 @@ namespace WmBridge.Web.Terminal
 
         private PSHtmlHelp GenerateQuickHelpHtml(RemoteCompletionItem item, string toolTip)
         {
-            if ((item.Type == CompletionResultType.Command || tabExpansionVersion == 1) && !item.Caption.Any(x => x == '.'))
+            if ((item.Type == CompletionResultType.Command || item.Type == CompletionResultType.ProviderItem || tabExpansionVersion == 1))
             {
                 try
                 {
                     using (var ps = _psFactory.Create())
                     {
                         ps.AddScript("&{$pp = $ProgressPreference; $ProgressPreference = 'SilentlyContinue'; $tmp = @(Get-Help $args[0] -Full -ErrorAction SilentlyContinue); $ProgressPreference = $pp; if ($tmp.count -eq 1) { $tmp[0] }} $args[0]");
-                        ps.AddArgument(item.Caption);
+                        ps.AddArgument(item.Text);
 
                         return PSHelpFormatter.BuildHtmlHelp(ps.Invoke().SingleOrDefault());
                     }

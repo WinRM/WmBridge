@@ -4,19 +4,16 @@
 //  THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY WARRANTIES
 //
 
+using log4net;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Runtime.Caching;
-using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Collections;
-using Newtonsoft.Json.Linq;
-using log4net;
 
 namespace WmBridge.Web.Model
 {
@@ -125,6 +122,7 @@ namespace WmBridge.Web.Model
                 throw;
             }
 
+            var eap = "";
             using (var ps = PowerShell.Create())
             {
                 ps.Runspace = runspace;
@@ -134,15 +132,26 @@ namespace WmBridge.Web.Model
                 if (!string.IsNullOrEmpty(options.ExecutionPolicy))
                     script += "Set-ExecutionPolicy $args[0] -Scope Process -Force;";
 
-                script += "$PSVersionTable.PSVersion";
+                script += "$PSVersionTable.PSVersion; $ErrorActionPreference;";
 
                 ps.AddScript(script);
                 ps.AddArgument(options.ExecutionPolicy);
                 var psResult = ps.Invoke();
 
-                if (psResult.Count >= 1)
+                if (psResult.Count == 2)
                 {
                     sessionStateVars.Add(PSSessionManager.PSVersionKey, psResult[0].BaseObject as Version);
+                    eap = psResult[1].ToString();
+                }
+            }
+
+            if (!string.IsNullOrEmpty(options.Script))
+            {
+                using (var ps = PowerShell.Create())
+                {
+                    ps.Runspace = runspace;
+                    ps.AddScript($"$ErrorActionPreference = 'stop'; {options.Script}; $ErrorActionPreference = '{eap}';");
+                    ps.Invoke();
                 }
             }
 

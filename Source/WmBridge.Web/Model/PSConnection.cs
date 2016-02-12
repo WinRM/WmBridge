@@ -41,6 +41,8 @@ namespace WmBridge.Web.Model
 
         public bool ShortTimeConnection { get; set; }
 
+        public string Script { get; set; }
+
         public Dictionary<string, object> Options { get; set; }
 
         public override string ToString()
