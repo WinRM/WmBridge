@@ -296,10 +296,10 @@ namespace WmBridge.Web.Model
                         inputArr = PSArrayListBaseObject(dynObj.InputTypes.InputType);
 
                     if (IsValidObject(dynObj.ReturnValues))
-                        outputArr = PSArrayListBaseObject(dynObj.ReturnValues.ReturnValue);
+                        outputArr = PSArrayListBaseObject(ReturnValues_ReturnValue(dynObj));
 
                     if (IsValidObject(dynObj.RelatedLinks))
-                        linksArr = PSArrayListBaseObject(dynObj.RelatedLinks.NavigationLink);
+                        linksArr = PSArrayListBaseObject(RelatedLinks_NavigationLink(dynObj));
 
                     body.AppendDivElement("name", outerDiv =>
                     {
@@ -369,7 +369,7 @@ namespace WmBridge.Web.Model
                     }
 
                     if (HasItems(inputArr))
-                    if (inputArr.Count != 1 || !string.IsNullOrEmpty(inputArr[0].Type.Name))
+                    if (inputArr.Count != 1 || HasTypeName(inputArr[0]))
                     {
                         body.AppendDivElement("inputs", outerDiv =>
                         {
@@ -382,7 +382,7 @@ namespace WmBridge.Web.Model
                     }
 
                     if (HasItems(outputArr))
-                    if (outputArr.Count != 1 || !string.IsNullOrEmpty(outputArr[0].Type.Name))
+                    if (outputArr.Count != 1 || HasTypeName(outputArr[0]))
                     {
                         body.AppendDivElement("outputs", outerDiv =>
                         {
@@ -444,17 +444,24 @@ namespace WmBridge.Web.Model
 
                                     div.AppendDivOfClassElement("code", codeDiv =>
                                     {
-                                        foreach (var dynCode in PSArrayListBaseObject(example.Code))
+                                        if (example.Code is string)
                                         {
-                                            string code = PSStringBaseObject(dynCode) ?? "";
-
-                                            if (introFix)
+                                            codeDiv.AppendPreElement(example.Code as string);
+                                        }
+                                        else
+                                        {
+                                            foreach (var dynCode in PSArrayListBaseObject(example.Code))
                                             {
-                                                code = "C:\\PS> " + code;
-                                                introFix = false;
-                                            }
+                                                string code = PSStringBaseObject(dynCode) ?? "";
 
-                                            codeDiv.AppendPreElement(code);
+                                                if (introFix)
+                                                {
+                                                    code = "C:\\PS> " + code;
+                                                    introFix = false;
+                                                }
+
+                                                codeDiv.AppendPreElement(code);
+                                            }
                                         }
                                     });
 
@@ -537,7 +544,14 @@ namespace WmBridge.Web.Model
 
         private static bool IsValidObject(object obj)
         {
-            return obj != null && !string.Equals(obj, "");
+            try
+            {
+                return obj != null && !string.Equals(obj, "");
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private static bool HasItems(dynamic dynObj)
@@ -547,7 +561,7 @@ namespace WmBridge.Web.Model
 
         private static dynamic PSArrayListBaseObject(dynamic dynObj)
         {
-            if (dynObj == null)
+            if (dynObj as PSObject == null)
                 return new ArrayList();
 
             object baseObject = ((PSObject)dynObj).BaseObject;
@@ -600,6 +614,42 @@ namespace WmBridge.Web.Model
             }
 
             return null;
+        }
+
+        private static bool HasTypeName(dynamic obj)
+        {
+            try
+            {
+                return obj.Type.Name != null;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static dynamic RelatedLinks_NavigationLink(dynamic obj)
+        {
+            try
+            {
+                return obj.RelatedLinks.NavigationLink as PSObject;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static dynamic ReturnValues_ReturnValue(dynamic obj)
+        {
+            try
+            {
+                return obj.ReturnValues.ReturnValue as PSObject;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
     }
