@@ -134,6 +134,7 @@
     <Content Include="paexec.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\WmBridge.Support.dll" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -158,6 +159,7 @@
     <Compile Include="Controllers\ScriptController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
+    <Compile Include="Controllers\TerminalServicesController.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\PSPropertyExtensions.cs" />
     <Compile Include="Extensions\RequestExtensions.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="Filters\LoggingAttribute.cs" />
     <Compile Include="Filters\PSAuthenticationAttribute.cs" />
     <Compile Include="Filters\PSVersionAttribute.cs" />
+    <Compile Include="Filters\RequireSupportLibraryAttribute.cs" />
     <Compile Include="Filters\StartupPSScriptAttribute.cs" />
     <Compile Include="Filters\ValidateModelAttribute.cs" />
     <Compile Include="Model\AgilityExtensions.cs" />

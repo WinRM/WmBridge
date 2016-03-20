@@ -68,7 +68,7 @@ namespace WmBridge.Web.Controllers
         public IHttpActionResult OsInfo()
         {
             var result = InvokePowerShell("Get-WmiObject Win32_OperatingSystem", PSSelect(
-                "PSComputerName".Alias("ComputerName"),
+                "CSName".Alias("ComputerName"),
                 "Caption".Alias("OSName"),
                 "CSDVersion".Alias("ServicePack"),
                 "OSArchitecture",
