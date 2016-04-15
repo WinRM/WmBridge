@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WmBridge.Service", "Source\WmBridge.Service\WmBridge.Service.csproj", "{34425FAB-123A-4666-AAD1-2559251C8447}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WmBridge.Config", "Source\WmBridge.Config\WmBridge.Config.csproj", "{3A8F93F8-C14E-41F1-96E0-273779A8CFB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WmBridge.Support", "Source\WmBridge.Support\WmBridge.Support.csproj", "{84C66BC4-9AD8-46A4-8EE7-121A91A26E44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WmBridge.Editor", "Source\WmBridge.Editor\WmBridge.Editor.csproj", "{8D197E1C-9954-42D2-85AC-F44A3FA39D9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{84C66BC4-9AD8-46A4-8EE7-121A91A26E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84C66BC4-9AD8-46A4-8EE7-121A91A26E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84C66BC4-9AD8-46A4-8EE7-121A91A26E44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D197E1C-9954-42D2-85AC-F44A3FA39D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D197E1C-9954-42D2-85AC-F44A3FA39D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D197E1C-9954-42D2-85AC-F44A3FA39D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D197E1C-9954-42D2-85AC-F44A3FA39D9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
